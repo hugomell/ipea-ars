@@ -1,0 +1,154 @@
+---
+title: Préparation des données utilisées pour le rapport
+format: html
+---
+
+```{r}
+
+library(purrr)
+
+```
+
+## Données "bénéficiaires ASE"
+
+### Acquisition des données
+
+```{r}
+#| eval: false
+
+urls_each_year <- list(
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2010_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2011_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2012_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2013_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2014_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2015_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2016_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2017_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2018_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2019_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2020_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2021_xlsx/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_en_2022_xlsx/"
+)
+
+url_time_series <- "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/les-beneficiaires-de-l-aide-sociale-a-l-enfance/attachments/les_beneficiaires_de_l_aide_sociale_a_l_enfance_series_longues_2002_2022_xlsx/"
+
+safe_download <- safely(\(x, y) download.file(x, y, mode = "wb"))
+
+# Creating names for the files to supply to the download.file function
+fnames <- paste0("dataset-year-", 2010:2022, ".xlsx")
+
+# Download all excel files for individual years in corresponding data/raw
+# directory
+map2(urls_each_year,
+     paste0(file.path("..", "data", "raw", "01-dataset-beneficiaires-ase", ""),
+            fnames),
+     safe_download)
+
+# Download excel file for time series between 2002 and 2022
+fname <- paste0(file.path("..", "data", "raw", "01-dataset-beneficiaires-ase", ""),
+         "dataset-time-series-2002-2022.xlsx")
+safe_download(url_time_series, fname)
+
+```
+
+### Préparation des données
+
+D'abord j'enlève les feuillets inutiles et je reformatte les tables pour ne
+garder que les lignes qui m'intéressent pour tous les fichiers `.xlsx`.
+Etape faite avec LibreOffice en enregistrant les feuillets
+utiles en CSV (*NB:* cocher "Edit filter options" au moment de la sauvegarde).
+
+Une fois cette étape réalisée, j'obtiens:
+
+```
+# yvelines_data/
+.
+├── dataset-time-series-2002-2022-total-enfants-accueillis.csv
+├── dataset-time-series-2002-2022-total-enfants-confies.csv
+├── dataset-year-2010.csv
+├── dataset-year-2011.csv
+├── dataset-year-2012.csv
+├── dataset-year-2013.csv
+├── dataset-year-2014.csv
+├── dataset-year-2015.csv
+├── dataset-year-2016.csv
+├── dataset-year-2017.csv
+├── dataset-year-2018.csv
+├── dataset-year-2019.csv
+├── dataset-year-2020.csv
+├── dataset-year-2021.csv
+└── dataset-year-2022.csv
+```
+
+Maintenant je peux utiliser ces fichiers CSV pour construire une série
+temporelle avec le total des enfants confiés à l'ASE de 2002-2009 (avant 2002 les données départementales ne sont pas données) + la
+répartition par tranche d'âge de 2010-2022. A noter que pour la répartition par
+tranche d'âge, à partir de 2015 on a les catégories "<3" et "3-5" en plus des
+catégories à la place de "<6" et en plus des catégories "6-10", "11-15",
+"16-17", "18+" disponibles pour toutes les périodes.
+
+## Données brutes enquête ASE
+
+### Acquisition des données
+
+```{r}
+#| eval: false
+
+urls_each_year <- list(
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/attachments/ase_brut_2018_zip/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/attachments/ase_brut_2019_zip/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/attachments/ase_brut_2020_zip/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/attachments/ase_brut_2021_zip/",
+  "https://data.drees.solidarites-sante.gouv.fr/api/datasets/1.0/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/attachments/ase_brut_2022_zip/"
+)
+
+safe_download <- safely(\(x, y) download.file(x, y, mode = "wb"))
+
+# Creating names for the files to supply to the download.file function
+fnames <- paste0("dataset-year-", 2018:2022, ".zip")
+
+# Download all excel files for individual years in corresponding data/raw
+# directory
+map2(urls_each_year,
+     paste0(file.path("..", "data", "raw", "02-dataset-donnes-brutes-ase", ""),
+            fnames),
+     safe_download)
+
+```
+
+### Préparation des données
+
+```bash
+
+unzip "dataset-year-20*"
+
+mv Dictionnaire-ASE-20* ../../metadata/dataset-donnes-brutes-ase
+
+```
+
+First, I filter the lines with the data for the Yvelines and I save them in new
+CSV in `yvelines_data/`.
+Now, I need to identify the columns with the data I am interested in using the
+corresponding "Dictionnary" in the `metadata/` folder.
+
+Visidata tricks I used to clean up the files:
+
+1. Create "transposed" sheet from the original CSV: `shift-t`.
+2. Open columns sheet: `shift-c`.
+3. Select desired columns for girls with `g|<type:_G>` and for boys with
+   `g|<type:_H>`.
+4. Invert selection with `gt` and delete all selected rows with `gd`.
+5. Add new columns for year and gender: `a` to append new blank column
+   (`x` and `shift-p` to put column above another one) and `q` to return to
+   transposed sheet
+6. Select all rows `gs` and in `year` column: `ge` to put proper year value.
+   Unselect everything with `gu`.
+7. On `age_category` column, `g|` and type `_G`, then move to `gender` to fill
+   gender value with `ge<type:F>`. For boys: `gt` to invert selection and
+   `ge<type:M>`.
+8. Save with `ctrl-s`. Then, quit everything and reopen new file.
+9. To copy age category values: `gs` on an already formatted column from a
+   previous year, `gzy` to copy cells and on destination file `gs` and `gzp` to
+   overwrite cells.
