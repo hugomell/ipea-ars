@@ -234,11 +234,12 @@ data <- rates_westlake2023 |>
   select(estimate_low, estimate_mean, estimate_high, everything())
 
 data |>
-  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean)) +
+  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, label = round(estimate_mean))) +
   geom_col(fill = "#69b3a2") +
   geom_point(alpha = 0.6) +
   geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
                 width = 0.2, alpha = 0.6, linewidth = 0.9) +
+  geom_text(nudge_x = -0.25, nudge_y = 45) +
   coord_flip() +
   ggtitle("Nombres d'enfants attendus par catégorie de trouble (effectifs
            ASE de 2022 et prévalences Westlake et al, 2023)") +
@@ -262,11 +263,12 @@ data <- rates_bronsard2016 |>
   select(estimate_low, estimate_mean, estimate_high, everything())
 
 data |>
-  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean)) +
+  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, label = round(estimate_mean))) +
   geom_col(fill = "#69b3a2") +
   geom_point(alpha = 0.6) +
   geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
                 width = 0.2, alpha = 0.6, linewidth = 0.9) +
+  geom_text(nudge_x = -0.35, nudge_y = 40) +
   coord_flip() +
   ggtitle("Nombres d'enfants attendus par catégorie de trouble (effectifs
            ASE de 2022 et prévalences Bronsard et al, 2016)") +
@@ -278,7 +280,6 @@ data |>
 
 
 ```{r}
-
 # %#% Plot with data from Bronsard et al, 2011
 
 data <- rates_bronsard2011 |>
@@ -294,29 +295,40 @@ data <- rates_bronsard2011 |>
 
 data |>
   filter(gender == "Both") |>
-  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean)) +
+  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, label = round(estimate_mean))) +
   geom_col(fill = "#69b3a2") +
   geom_point(alpha = 0.6) +
   geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
                 width = 0.2, alpha = 0.6, linewidth = 0.9) +
+  geom_text(nudge_x = -0.3, nudge_y = 30) +
   coord_flip() +
   ggtitle("Nombres d'enfants attendus par catégorie de trouble (effectifs
            ASE de 2022 et prévalences Bronsard et al, 2011)") +
     theme_ipsum(plot_title_size = 13) +
     labs(x = "", y = "Nombre d'enfants")
 
+```
+
+
+```{r}
+#| fig-asp: 1.1
+
 data |>
   filter(gender != "Both") |>
-  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, fill = gender)) +
-  geom_col(position = "dodge") +
-  geom_point(position = position_dodge(width = 0.9), alpha = 0.6) +
+  # ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, fill = gender, label = paste0(round(estimate_mean), "   [", round(estimate_low), ",", round(estimate_high), "]"))) +
+  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean, fill = gender, label = round(estimate_mean))) +
+  geom_col(position = position_dodge(width = 1), width = 0.8) +
+  geom_point(position = position_dodge(width = 1), alpha = 0.6) +
   geom_errorbar(aes(ymin = estimate_low, ymax = estimate_high),
-                position = position_dodge(width = 0.9), width = 0.2, alpha = 0.6, linewidth = 0.9) +
+                position = position_dodge(width = 1), width = 0.2, alpha = 0.6, linewidth = 0.9) +
+  geom_text(aes(y = estimate_high + 65 , ymax = max(estimate_high * 1.09)), size =  3.3,
+            hjust = ifelse((filter(data, gender != "Both") |> pull(estimate_mean) > 100), 2.2, 2.6), position = position_dodge(0.5)) +
   coord_flip() +
   ggtitle("Nombres d'enfants attendus par catégorie de trouble et par genre (effectifs
            ASE de 2022 et prévalences Bronsard et al, 2011)") +
     theme_ipsum(plot_title_size = 13) +
-    labs(x = "", y = "Nombre d'enfants")
+    labs(x = "", y = "Nombre d'enfants") +
+    ylim(c(0, 1200))
+
 
 ```
-
