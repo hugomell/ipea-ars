@@ -27,8 +27,8 @@ confiés à l'ASE, ainsi que sa répartition selon des critères
 démographiques (répartition par tranche d'âge et par genre).
 Pour les années antérieures à 2023 et 2024, à noter que les données utilisées
 sont issues de l'enquête "Aide Sociale à l'Enfance" de la DREES, disponibles en
-accès libre sur leur plateforme numérique (
-[Base de données brutes](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/information/),
+accès libre sur leur plateforme numérique
+([Base de données brutes](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/information/),
 [Open dataset](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/les-beneficiaires-de-l-aide-sociale-a-l-enfance/information/)).
 
 Une estimation des besoins actuels de prise en charge en santé mentale
