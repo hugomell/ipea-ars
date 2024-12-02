@@ -29,7 +29,7 @@ Pour les années antérieures à 2023 et 2024, à noter que les données utilis�
 sont issues de l'enquête "Aide Sociale à l'Enfance" de la DREES, disponibles en
 accès libre sur leur plateforme numérique (
 [Base de données brutes](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/information/),
-[Open dataset](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/les-beneficiaires-de-l-aide-sociale-a-l-enfance/information/)). 
+[Open dataset](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/les-beneficiaires-de-l-aide-sociale-a-l-enfance/information/)).
 
 Une estimation des besoins actuels de prise en charge en santé mentale
 est ensuite établie en combinant les derniers effectifs recensés sur le
@@ -69,7 +69,7 @@ data_2002_2022 |>
   ggplot(aes(x = year, y = n)) +
   geom_line(color = "grey") +
   geom_point(shape = 21, color = "black", fill = "#69b3a2", size = 6) +
-  geom_smooth(formula = y ~ x) +
+  geom_smooth(formula = y ~ x, se = FALSE) +
   theme_ipsum(plot_title_size = 13) +
   labs(x = "Année", y = "") +
   ggtitle("Evolution du nombre d'enfants confiés à l'ASE
