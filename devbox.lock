@@ -65,131 +65,31 @@
         }
       }
     },
-    "csvkit@latest": {
-      "last_modified": "2024-11-03T14:18:04Z",
-      "resolved": "github:NixOS/nixpkgs/4ae2e647537bcdbb82265469442713d066675275#csvkit",
+    "glibcLocales@latest": {
+      "last_modified": "2024-11-16T04:25:12Z",
+      "resolved": "github:NixOS/nixpkgs/34a626458d686f1b58139620a8b2793e9e123bba#glibcLocales",
       "source": "devbox-search",
-      "version": "2.0.1",
+      "version": "2.40-36",
       "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/57f05vamzdbmjckgbsqm3sjb6zymlivh-csvkit-2.0.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/fnvm7l7rwl47abrsk0392lf9h2gqrvxz-csvkit-2.0.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/57f05vamzdbmjckgbsqm3sjb6zymlivh-csvkit-2.0.1"
-        },
         "aarch64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/7mysrapzdn4a26pc2k52j83s96wval17-csvkit-2.0.1",
+              "path": "/nix/store/1xx0sc6ykc3kqxbikipg33gbsc8wqlkl-glibc-locales-2.40-36",
               "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/ha7d2zp9lx3c7h5llcjwir7mk5hzq2mj-csvkit-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/7mysrapzdn4a26pc2k52j83s96wval17-csvkit-2.0.1"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/dvk0as089jpzaxwjmw9cyl0pr97nskka-csvkit-2.0.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/m338ffvfsia5cgw58rrs63ln5dw4l11g-csvkit-2.0.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/dvk0as089jpzaxwjmw9cyl0pr97nskka-csvkit-2.0.1"
+          "store_path": "/nix/store/1xx0sc6ykc3kqxbikipg33gbsc8wqlkl-glibc-locales-2.40-36"
         },
         "x86_64-linux": {
           "outputs": [
             {
               "name": "out",
-              "path": "/nix/store/i6xy8zvsa80d5vkvl9xjf7ir89djc8p3-csvkit-2.0.1",
+              "path": "/nix/store/7hivmh39qsl8abz86cfwc02lyqqbdw44-glibc-locales-2.40-36",
               "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/6hb6srrwy95h5pixdqjmb1lmk0ijrs4l-csvkit-2.0.1-dist"
             }
           ],
-          "store_path": "/nix/store/i6xy8zvsa80d5vkvl9xjf7ir89djc8p3-csvkit-2.0.1"
-        }
-      }
-    },
-    "python312Packages.radian@latest": {
-      "last_modified": "2024-11-03T14:18:04Z",
-      "resolved": "github:NixOS/nixpkgs/4ae2e647537bcdbb82265469442713d066675275#python312Packages.radian",
-      "source": "devbox-search",
-      "version": "0.6.13",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/phfnhm5fqjg63ws9zzlljr7czis44bi7-python3.12-radian-0.6.13",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/5r4zlbq8wxz8x9a7wh2dvlljkdgg3szj-python3.12-radian-0.6.13-dist"
-            }
-          ],
-          "store_path": "/nix/store/phfnhm5fqjg63ws9zzlljr7czis44bi7-python3.12-radian-0.6.13"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/ng47x6v75cq6nx2ar4nzrxr6kfqrdhhb-python3.12-radian-0.6.13",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/5rr3ak2gsjwdqdjfb1816gq6b0hqv8bx-python3.12-radian-0.6.13-dist"
-            }
-          ],
-          "store_path": "/nix/store/ng47x6v75cq6nx2ar4nzrxr6kfqrdhhb-python3.12-radian-0.6.13"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/76fkfav0d73hnn76xhngf34346b8jy0d-python3.12-radian-0.6.13",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/w62ppnwc3952pazla1w6wwrfbcacr190-python3.12-radian-0.6.13-dist"
-            }
-          ],
-          "store_path": "/nix/store/76fkfav0d73hnn76xhngf34346b8jy0d-python3.12-radian-0.6.13"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/5vdqy02sz87jxi99mm8m1vzh6wi5i9gk-python3.12-radian-0.6.13",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/9bkilssz2zfcv3jnh60ckgj927m2f5jr-python3.12-radian-0.6.13-dist"
-            }
-          ],
-          "store_path": "/nix/store/5vdqy02sz87jxi99mm8m1vzh6wi5i9gk-python3.12-radian-0.6.13"
+          "store_path": "/nix/store/7hivmh39qsl8abz86cfwc02lyqqbdw44-glibc-locales-2.40-36"
         }
       }
     },
@@ -433,102 +333,6 @@
         }
       }
     },
-    "rPackages.httpgd@latest": {
-      "last_modified": "2024-11-16T04:25:12Z",
-      "resolved": "github:NixOS/nixpkgs/34a626458d686f1b58139620a8b2793e9e123bba#rPackages.httpgd",
-      "source": "devbox-search",
-      "version": "2.0.2",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/97pb3s9ri0k7ywiis8l38y7clksr2pgm-r-httpgd-2.0.2",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/97pb3s9ri0k7ywiis8l38y7clksr2pgm-r-httpgd-2.0.2"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/bpc3h82arpgxj50nya1zadnigaa6j1a7-r-httpgd-2.0.2",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/bpc3h82arpgxj50nya1zadnigaa6j1a7-r-httpgd-2.0.2"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/r4nppqsr19n4iggfy1l4zbi1kqr6pwpf-r-httpgd-2.0.2",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/r4nppqsr19n4iggfy1l4zbi1kqr6pwpf-r-httpgd-2.0.2"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/9axg9l9djjpqj8rcv4hlcniwwcyhr17s-r-httpgd-2.0.2",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/9axg9l9djjpqj8rcv4hlcniwwcyhr17s-r-httpgd-2.0.2"
-        }
-      }
-    },
-    "rPackages.languageserver@latest": {
-      "last_modified": "2024-11-03T14:18:04Z",
-      "resolved": "github:NixOS/nixpkgs/4ae2e647537bcdbb82265469442713d066675275#rPackages.languageserver",
-      "source": "devbox-search",
-      "version": "0.3.16",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/53g9cjwj6vkzgw8axif7ckgn5pw67ra8-r-languageserver-0.3.16",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/53g9cjwj6vkzgw8axif7ckgn5pw67ra8-r-languageserver-0.3.16"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/n0qjwc7hzz78wava5m867l7vqw3jh83z-r-languageserver-0.3.16",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/n0qjwc7hzz78wava5m867l7vqw3jh83z-r-languageserver-0.3.16"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/20wk6hq41swyv467w2m2lddhf57pzfva-r-languageserver-0.3.16",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/20wk6hq41swyv467w2m2lddhf57pzfva-r-languageserver-0.3.16"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/4wj43884cw40snpp2ckl3m8nchgjb35x-r-languageserver-0.3.16",
-              "default": true
-            }
-          ],
-          "store_path": "/nix/store/4wj43884cw40snpp2ckl3m8nchgjb35x-r-languageserver-0.3.16"
-        }
-      }
-    },
     "rPackages.purrr@latest": {
       "last_modified": "2024-11-03T14:18:04Z",
       "resolved": "github:NixOS/nixpkgs/4ae2e647537bcdbb82265469442713d066675275#rPackages.purrr",
@@ -670,70 +474,6 @@
             }
           ],
           "store_path": "/nix/store/ggdi3pkv3hdbmlg1pqa2nv1avjgwam2f-r-viridis-0.6.5"
-        }
-      }
-    },
-    "visidata@latest": {
-      "last_modified": "2024-11-05T18:23:38Z",
-      "resolved": "github:NixOS/nixpkgs/8c4dc69b9732f6bbe826b5fbb32184987520ff26#visidata",
-      "source": "devbox-search",
-      "version": "3.1.1",
-      "systems": {
-        "aarch64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/5305x27phry87lm1m33x0dlx3a25ldi2-visidata-3.1.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/nn7lb5kjjc7v4v4g6zv202y5yf3jysa0-visidata-3.1.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/5305x27phry87lm1m33x0dlx3a25ldi2-visidata-3.1.1"
-        },
-        "aarch64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/8b8331lj06a39zf497rlrb6j56jlnf3h-visidata-3.1.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/pj7ir34a771f3s7bhpa49f7jsi3dvv65-visidata-3.1.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/8b8331lj06a39zf497rlrb6j56jlnf3h-visidata-3.1.1"
-        },
-        "x86_64-darwin": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/gjgc9xvh23wf9285bv6b2sncjara7y8q-visidata-3.1.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/hbr7rzav5sgg2jd549p867vm4yiihvwm-visidata-3.1.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/gjgc9xvh23wf9285bv6b2sncjara7y8q-visidata-3.1.1"
-        },
-        "x86_64-linux": {
-          "outputs": [
-            {
-              "name": "out",
-              "path": "/nix/store/v55zavkhjyvdla2nydqg512a38hkkyzw-visidata-3.1.1",
-              "default": true
-            },
-            {
-              "name": "dist",
-              "path": "/nix/store/5phg5qzf6vg8ybc1xkw8kprlfqqb36a4-visidata-3.1.1-dist"
-            }
-          ],
-          "store_path": "/nix/store/v55zavkhjyvdla2nydqg512a38hkkyzw-visidata-3.1.1"
         }
       }
     }
