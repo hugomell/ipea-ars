@@ -10,8 +10,7 @@
     "rPackages.hrbrthemes@latest",
     "rPackages.viridis@latest",
     "rPackages.gt@latest",
-    "glibcLocales@latest",
-    "fontconfig@latest"
+    "glibcLocales@latest"
   ],
   "shell": {
     "init_hook": [
