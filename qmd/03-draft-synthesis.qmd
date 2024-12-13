@@ -1,0 +1,412 @@
+---
+title: Document de synthèse
+subtitle: Besoins de prise en charge en santé mentale des enfants confiés à l'ASE des Yvelines
+format:
+  html:
+    embed-resources: true
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+
+library(ggplot2)
+library(dplyr)
+library(hrbrthemes)
+
+```
+
+Ce document de synthèse a pour but d' estimer les besoins de prise en charge en
+santé mentale de la population spécifique des enfants pris en charge par l'Aide
+Sociale à l'Enfance au sein du département des Yvelines.
+
+Il retrace dans un premier temps l'évolution récente du nombre total d'enfants
+accueillis à l'ASE, ainsi que sa répartition selon des critères
+démographiques (répartition par tranche d'âge, par genre).
+Pour les années antérieures à 2023 et 2024, à noter que les données utilisées
+sont issues de l'enquête "Aide Sociale à l'Enfance" de la DREES, disponibles en
+accès libre sur leur plateforme numérique
+([Base de données brutes](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/information/),
+[Open dataset](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/les-beneficiaires-de-l-aide-sociale-a-l-enfance/information/)).
+
+Une estimation des besoins actuels de prise en charge en santé mentale
+est ensuite établie en combinant les derniers effectifs recensés sur le
+département des Yvelines, aux prévalences attendues pour un large spectre de
+troubles psychiques chez ce type de population. Les données de prévalence
+utilisées pour cette étape ont été extraites de trois publications
+scientifiques s'intéressant à la santé mentale chez des jeunes pris en charge
+au sein de systèmes de protection sociale comparables aux dispositifs de l'ASE
+en France. Deux d'entre elles (Bronsard et al., 2016; Westlake et al., 2023)
+sont des synthèses récentes et à visée exhaustive de la littérature
+scientifique disponible sur cette thématique. La troisième
+(Bronsard et al., 2011) est une étude spécifique d'un intérêt particulier
+puisqu'elle concerne des adolescents vivant dans des foyers résidentiels de
+l'ASE des Bouches-du-Rhône et reporte des prévalences pour différents troubles
+par catégorie de genre.
+
+Enfin, une série d'estimations des besoins futurs sont proposées sur la base de
+différents scénarios d'évolution des effectifs d'enfants accueillis par l'ASE
+à un horizon de cinq années par rapport aux derniers effectis recensés.
+
+## Evolution du nombre d'enfants accueillis par l'ASE
+
+```{r}
+
+fp <-  file.path("..", "data", "processed", "01-dataset-beneficiaires-ase",
+                 "dataset_2002-2022_enfants_accueillis.csv")
+fp2 <-  file.path("..", "data", "processed", "01-dataset-beneficiaires-ase",
+                 "dataset_2002-2022_enfants_confies.csv")
+data_2002_2022_total <- read.csv(fp)
+data_2002_2022_by_age <- read.csv(fp2)
+
+```
+
+```{r}
+
+# %#% Plot time series 2002-2022 total
+data_2002_2022_total |>
+  ggplot(aes(x = year, y = n)) +
+  geom_line(color = "grey") +
+  geom_point(shape = 21, color = "black", fill = "#69b3a2", size = 6) +
+  geom_smooth(formula = y ~ x, se = FALSE) +
+  theme_ipsum(plot_title_size = 13) +
+  labs(x = "Année", y = "") +
+  ggtitle("Evolution du nombre d'enfants confiés à l'ASE
+           dans le département des Yvelines entre 2002 et 2022")
+
+```
+
+```{r}
+
+# %#% Plot time series 2002-2022 by age
+
+data_2002_2022_by_age |>
+  mutate(age_category = factor(age_category,
+                               levels = c("<6", "6-10", "11-15", "16-17",
+                                          "18+"))) |>
+  filter(year >= 2010, age_category != "total") |>
+  ggplot(aes(x = as.character(year), y = n, group = age_category,
+             color = age_category)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(shape = 21, color = "black", fill = "dark grey", size = 1) +
+  ggtitle("Evolution du nombre d'enfants confiés à l'ASE
+           dans le département des Yvelines entre 2010 et 2022 par
+           catégorie d'âge") +
+  theme_ipsum(plot_title_size = 13) +
+  labs(x = "Année", y = "", color = "Catégorie d'âge")
+
+```
+
+```{r}
+
+fp <- file.path("..", "data", "processed", "02-dataset-donnes-brutes-ase",
+                "ASE2018-2022_DataDrees.csv")
+data_gender <- read.csv(fp)
+
+data_gender_by_year <- data_gender |>
+  filter(age_category != "total") |>
+  group_by(year, gender) |>
+  summarise(n = sum(n)) |>
+  mutate(gender = ifelse(gender == "F", "Fille", "Garçon"))
+
+```
+
+```{r}
+
+# %#% Plot time series 2018-2022 by gender
+data_gender_by_year |>
+  ggplot(aes(x = as.character(year), y = n, group = gender, color = gender)) +
+    geom_line(linewidth = 1.1) +
+    geom_point(shape = 21, color = "black", fill = "dark grey", size = 3) +
+    ggtitle("Evolution du nombre d'enfants confiés à l'ASE
+              dans le département des Yvelines entre 2018 et 2022 par genre") +
+    theme_ipsum(plot_title_size = 13) +
+    labs(x = "Année", y = "", color = "Genre")
+
+```
+
+## Cartes
+
+### Distribution par âge
+
+#### Moins de 3 ans
+
+![](../figures/carte_stock_2023_moins_3ans.png)
+
+#### Entre 3 et 5 ans
+
+![](../figures/carte_stock_2023_3_a_5ans.png)
+
+#### Entre 6 et 10 ans
+
+![](../figures/carte_stock_2023_6_a_10ans.png)
+
+#### Entre 11 et 15 ans
+
+![](../figures/carte_stock_2023_11_a_15ans.png)
+
+#### Entre 16 et 18 ans
+
+![](../figures/carte_stock_2023_16_a_18ans.png)
+
+### Distribution globale
+
+![](../figures/carte_stock_2023.png)
+
+### Nombres d'enfants concernés par une mesure pour 1000 hab
+
+![](../figures/carte_stock_2023_nombres_pour_1000hab.png)
+
+### Durée du parcours
+
+![](../figures/carte_stock_2023_duree_parcours.png)
+
+### Estimation des besoins par commune
+
+![](../figures/carte_stock_2023_estimations_tout_trouble_sante_mentale.png)
+
+## Extraction des prévalences pour divers troubles
+
+### Westlake et al, 2023
+
+En se basant sur la méta-analyse la plus récente disponible dans la littérature
+scientifique (Westlake et al., 2023), le tableau ci-dessous regroupe les
+prévalences estimées (moyennes et bornes inférieures/supérieures des
+intervalles de confiance associés) pour les troubles psychiques les plus
+fréquents chez les enfants et adolescents placés.
+
+```{r}
+
+rates_westlake2023 <- tibble::tribble(
+  ~disorder,                      ~rate_low_ci, ~rate_mean,   ~rate_high_ci,
+  "Tout trouble du comportement",       0.35,       0.46,            0.58,
+  "Troubles externalisés",              0.34,       0.49,            0.65,
+  "Troubles internalisés",              0.26,       0.39,            0.53,
+  "Troubles des conduites",             0.17,       0.35,            0.55,
+  "Dépression",                         0.18,       0.26,            0.35,
+  "Symptômes émotionnels",              0.08,       0.17,            0.28,
+  "Symtômes somatiques",                0.08,       0.14,            0.20
+)
+
+rates_westlake2023 |>
+  gt::gt() |>
+  gt::tab_spanner(
+    label = "Taux de prévalence estimés",
+    columns = c(starts_with("rate_"))
+  ) |>
+  gt::cols_label(
+    disorder = "Disorder",
+    rate_low_ci = "Estimation Basse (95% CI)",
+    rate_mean = "Estimation Moyenne",
+    rate_high_ci = "Estimation Haute (95% CI)"
+  )
+
+```
+
+
+### Bronsard et al, 2016
+
+```{r}
+
+rates_bronsard2016 <- tibble::tribble(
+  ~disorder,                  ~rate_low_ci,     ~rate_mean, ~rate_high_ci,
+  "Any depressive disorder",            0.07,           0.11,            0.15,
+  "Major depressive disorder",          0.05,           0.12,            0.18,
+  "Any disruptive disorder",            0.20,           0.27,            0.34,
+  "Conduct disorder",                   0.13,           0.20,            0.27,
+  "Oppositional defiant disorder",      0.10,           0.12,            0.14,
+  "ADHD",                               0.06,           0.11,            0.15,
+  "Any anxiety disorder",               0.12,           0.18,            0.24,
+  "Posttraumatic stress disorder",      0.02,           0.04,            0.06,
+  "Any mental disorder",                0.43,           0.49,            0.54
+)
+
+rates_bronsard2016 |>
+  gt::gt() |>
+  gt::tab_spanner(
+    label = "Prevalence estimate",
+    columns = c(starts_with("rate_"))
+  ) |>
+  gt::cols_label(
+    disorder = "Disorder",
+    rate_low_ci = "Low (95% CI)",
+    rate_mean = "Mean",
+    rate_high_ci = "High (95% CI)"
+  )
+
+```
+
+### Bronsard et al, 2011
+
+```{r}
+
+rates_bronsard2011 <- tibble::tribble(
+  ~disorder,               ~rate_low_ci, ~rate_mean, ~rate_high_ci, ~gender,
+  "Anxiety disorder",              0.22,       0.28,          0.36, "Both",
+  "Anxiety disorder",              0.08,       0.13,          0.22, "Male",
+  "Anxiety disorder",              0.38,       0.49,          0.61, "Female",
+  "Psychosis screen",              0.13,       0.19,          0.25, "Both",
+  "Psychosis screen",              0.07,       0.12,          0.20, "Male",
+  "Psychosis screen",              0.18,       0.27,          0.39, "Female",
+  "Major depression",              0.10,       0.15,          0.21, "Both",
+  "Major depression",              0.02,       0.06,          0.12, "Male",
+  "Major depression",              0.18,       0.27,          0.39, "Female",
+  "ADHD",                          0.02,       0.04,          0.08, "Both",
+  "ADHD",                          0.01,       0.02,          0.07, "Male",
+  "ADHD",                          0.02,       0.07,          0.15, "Female",
+  "Conduct disorder",              0.11,       0.15,          0.22, "Both",
+  "Conduct disorder",              0.11,       0.18,          0.27, "Male",
+  "Conduct disorder",              0.06,       0.12,          0.22, "Female",
+  "Internalized disorder",         0.26,       0.33,          0.40, "Both",
+  "Internalized disorder",         0.09,       0.15,          0.24, "Male",
+  "Internalized disorder",         0.45,       0.57,          0.68, "Female",
+  "Externalized disorder",         0.12,       0.18,          0.24, "Both",
+  "Externalized disorder",         0.12,       0.19,          0.28, "Male",
+  "Externalized disorder",         0.09,       0.16,          0.26, "Female",
+  "Suicide attempts",              0.13,       0.19,          0.25, "Both",
+  "Suicide attempts",              0.06,       0.10,          0.18, "Male",
+  "Suicide attempts",              0.20,       0.30,          0.42, "Female"
+)
+
+rates_bronsard2011 |>
+  gt::gt() |>
+  gt::tab_spanner(
+    label = "Prevalence estimate",
+    columns = c(starts_with("rate_"))
+  ) |>
+  gt::cols_label(
+    disorder = "Disorder",
+    rate_low_ci = "Low (95% CI)",
+    rate_mean = "Mean",
+    rate_high_ci = "High (95% CI)",
+    gender = "Gender"
+  )
+
+```
+
+## Estimation des prévalences pour les effectifs de l'ASE des Yvelines
+
+```{r}
+
+n_yvelines_total <- data_2002_2022_total |>
+  filter(year == 2022) |>
+  pull(n)
+
+```
+
+```{r}
+
+# %#% Plot with data from Westlake et al, 2023
+
+data <- rates_westlake2023 |>
+  mutate(
+    n_yvelines = n_yvelines_total,
+    estimate_low = rate_low_ci * n_yvelines,
+    estimate_mean = rate_mean * n_yvelines,
+    estimate_high = rate_high_ci * n_yvelines
+  ) |>
+  select(estimate_low, estimate_mean, estimate_high, everything())
+
+data |>
+  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean,
+             label = round(estimate_mean))) +
+  geom_col(fill = "#69b3a2") +
+  geom_point(alpha = 0.6) +
+  geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
+                width = 0.2, alpha = 0.6, linewidth = 0.9) +
+  geom_text(nudge_x = -0.25, nudge_y = 45) +
+  coord_flip() +
+  ggtitle("Nombres d'enfants attendus par catégorie de trouble (effectifs
+           ASE de 2022 et prévalences Westlake et al, 2023)") +
+    theme_ipsum(plot_title_size = 13) +
+    labs(x = "", y = "Nombre d'enfants")
+
+```
+
+
+```{r}
+
+pop_projections <- tibble::tribble(
+  ~scenario,                              ~rate,
+  "Scénario -20%",                        -0.20,
+  "Scénario -10%",                        -0.10,
+  "Scénario -9.4%  (Baisse historique)",     NA,
+  "Scénario +0%",                             0,
+  "Scénario +10%",                         0.10,
+  "Scénario +15.5% (Hausse historique)",     NA,
+  "Scénario +20%",                         0.20,
+)
+
+historic_extremes <- data_2002_2022_total |>
+  mutate(five_yr_rate = (1 - (n / lead(n, n = 5)))) |>
+  pull(five_yr_rate) |>
+  (\(x) list(max_decrease = min(x, na.rm = TRUE),
+             max_increase = max(x, na.rm = TRUE),
+             mean_increase = mean(x, na.rm = TRUE),
+             median_increase = median(x, na.rm = TRUE)))()
+
+pop_projections <- pop_projections |>
+  mutate(n_2022 = n_yvelines_total,
+         rate = if_else(grepl("Hausse historique", scenario),
+                        historic_extremes$max_increase,
+                        rate),
+         rate = if_else(grepl("Baisse historique", scenario),
+                        historic_extremes$max_decrease,
+                        rate),
+         n_2027 = trunc(n_2022 + (n_2022 * rate))
+        ) |>
+  select(scenario, n_2027)
+
+
+data <- tidyr::crossing(rates_westlake2023, pop_projections) |>
+  arrange(n_2027) |>
+  mutate(
+    estimate_low = trunc(rate_low_ci * n_2027),
+    estimate_mean = trunc(rate_mean * n_2027),
+    estimate_high = trunc(rate_high_ci * n_2027)
+  ) |>
+  select(estimate_low, estimate_mean, estimate_high, everything())
+
+calculate_nudge_label <-  function(x) {
+  if (x < 500) {
+    return(0.3 * x)
+  } else if(x < 800) {
+    return(0.2 * x)
+  } else if(x < 1200) {
+    return(0.17 * x)
+  } else {
+    return(0.13 * x)
+  }
+}
+
+#data |>
+#  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean,
+#             label = round(estimate_mean), fill = disorder)) +
+#  geom_col() +
+#  geom_point(alpha = 0.6) +
+#  geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
+#                width = 0.2, alpha = 0.6, linewidth = 0.9) +
+#  # geom_text(nudge_x = -0.25,
+#  #           nudge_y = ifelse(data$estimate_mean > 1000,
+#  #                            130, 105)) +
+#  geom_text(nudge_x = -0.25,
+#            nudge_y = purrr::map_dbl(data$estimate_mean, calculate_nudge_label)) +
+#  coord_flip() +
+#  facet_wrap(~ factor(scenario,
+#                      levels = c("Scénario -20%", "Scénario -10%",
+#                                 "Scénario -9.4%  (Baisse historique)",
+#                                 "Scénario +0%", "Scénario +10%",
+#                                 "Scénario +15.5% (Hausse historique)",
+#                                 "Scénario +20%")),
+#             # scales = "free",
+#             nrow = 2) +
+#  ggtitle("") +
+#    theme_ipsum(plot_title_size = 13) +
+#    labs(x = "", y = "Nombre d'enfants") +
+#    guides(fill = "none")
+
+```
+
+![](../figures/plot_estimations_2027.png)
