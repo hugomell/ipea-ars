@@ -21,10 +21,10 @@ library(hrbrthemes)
 
 ## Contexte épidémiologique
 
-Les données épidémiologiques récentes montrent que 50 % des troubles de santé
+Les données épidémiologiques récentes montrent que 50% des troubles de santé
 mentale apparaissent avant l’âge de 20 ans, avec un pic autour de 15 ans chez
 les filles et les garçons (McGrath et al., 2023, DOI:
-https://doi.org/10.1016/S2215-0366(23)00193-1). En Europe, environ 16 % des
+https://doi.org/10.1016/S2215-0366(23)00193-1). En Europe, environ 16% des
 jeunes de 10 à 19 ans souffrent d’un trouble mental, selon une analyse de
 l’UNICEF basée sur les estimations de l’Institute for Health Metrics and
 Evaluation (IHME), Global Burden of Disease Study, 2019.
@@ -43,18 +43,17 @@ Le présent document vise à prendre la mesure des besoins en santé mentale des
 enfants confiés à l’Aide Sociale à l’Enfance (ASE) dans le département des
 Yvelines. Il examine d’abord l’évolution du nombre total d’enfants placés à
 l’ASE, leur répartition selon des critères démographiques (âge et genre) et
-géographiques (commune de résidence). Nous évaluons ensuite, pour l’année 2023, la répartition de cet
-effectif par commune de résidence et dérivons plusieurs métriques autres que
-les effectifs bruts, affinant notre représentation des inégalités territoriales
-en termes de besoins socio-éducatifs. Puis, sur la base des prévalences
-issues du travail de Westlake et collaborateurs (2023, DOI:
-10.1177/25161032231202256), nous dérivons une estimation théorique des besoins
-en santé mentale des enfants et des jeunes placés, au niveau global et au
-niveau des territoires.
+géographiques (commune de résidence). Nous évaluons ensuite, pour l’année 2023,
+la répartition de cet effectif par commune de résidence ainsi que plusieurs
+métriques autres que les effectifs bruts, affinant notre représentation des
+inégalités territoriales en termes de besoins socio-éducatifs. Puis, sur la
+base des prévalences issues du travail de Westlake et collaborateurs (2023,
+DOI: 10.1177/25161032231202256), nous dérivons une estimation théorique des
+besoins en santé mentale des enfants et des jeunes placés, au niveau global et
+au niveau des territoires.
 Nous concluons le document par une série de projections des besoins en santé
 mentale à 5 ans, envisageant plusieurs scenarii d'évolution de la population
 d'enfants placés par rapport à l'année 2022.
-
 
 *NB : En raison du manque de données détaillées sur les prévalences par
 tranche d’âge et genre, nos estimations des besoins en santé mentale sont
@@ -108,8 +107,10 @@ data_2002_2022_by_age <- read.csv(fp2)
 Le graphique ci-dessous met en lumière l’évolution du nombre d’enfants et de
 jeunes placés en foyer ou en famille d’accueil dans le département des Yvelines
 entre 2002 et 2022. Les données sont issues de l’enquête "Aide Sociale à
-l’Enfance" de la DREES, disponibles en open data (Base de données brutes, Open
-dataset). Après une diminution jusqu’en 2005 puis une longue période de
+l’Enfance" de la DREES, disponibles en open data 
+([Base de données brutes](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/bases-de-donnees-brutes-de-l-enquete-aide-sociale-volet-aide-sociale-a-l-enfance/information/),
+[Open dataset](https://data.drees.solidarites-sante.gouv.fr/explore/dataset/les-beneficiaires-de-l-aide-sociale-a-l-enfance/information/)).
+Après une diminution jusqu’en 2005 puis une longue période de
 relative stabilité, on assiste à partir de 2018 à une augmentation
 significative de l’effectif.
 
@@ -124,8 +125,8 @@ data_2002_2022_total |>
   geom_smooth(formula = y ~ x, se = FALSE) +
   theme_ipsum(plot_title_size = 13) +
   labs(x = "Année", y = "") +
-  ggtitle("Evolution du nombre d'enfants accueillis au sein de l'ASE
-           dans le département des Yvelines entre 2002 et 2022")
+  ggtitle("Evolution du nombre d'enfants accueillis au sein de l'ASE dans le\ndépartement des Yvelines entre 2002 et 2022",
+          subtitle = "La courbe bleue représente la tendance générale des données en lissant\n les fluctuations aléatoires pour montrer l'évolution globale de l'effectif\nau cours du temps (LOESS regression).")
 
 ```
 
