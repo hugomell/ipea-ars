@@ -268,19 +268,22 @@ nombre d'enfants par catégorie d'âge.
 
 ### Nombres d'enfants concernés par une mesure pour 1000 hab
 
-La carte suivante propose une représentation des mesures de placement pour 1000
-habitants dans les communes de résidence des enfants placés, révélant là encore
-d'importantes disparités territoriales. Jambville se distingue par une valeur
-exceptionnellement élevée (~ 100 enfants/1000 habitants), indiquant une forte
-proportion relative de placements par rapport à sa population. Des communes
-comme Auffargis présente également un taux notable, soulignant des besoins
-importants (~ 40 enfants/1000 habitants). Malgré leur taille modeste, certaines
-communes rurales ou périurbaines, telles que Sailly, Houdan, Les Mesnuls ou
-Auffreville-Brasseuil affichent des taux non négligeables (~ 10-15 enfants/1000
-habitants). Les communes urbaines comme Versailles, Mantes-la-Jolie, ou
-Trappes, bien que densément peuplées et touchées en effectifs absolus,
-affichent des taux de placement modérés au regard de leur population totale. La
-présence de taux élevés dans des communes de petite et moyenne taille peut
+La carte suivante propose une représentation du nombre de mesures de placement en cours
+(file active) pour 1000 habitants dans les communes de résidence des enfants
+placés, révélant là encore d'importantes disparités territoriales.
+
+Jambville se distingue par une valeur exceptionnellement élevée (~ 100
+enfants/1000 habitants), indiquant une forte proportion relative de placements
+par rapport à sa population. Des communes comme Auffargis présente également un
+taux notable, soulignant des besoins importants (~ 40 enfants/1000 habitants).
+Malgré leur taille modeste, certaines communes rurales ou périurbaines, telles
+que Sailly, Houdan, Les Mesnuls ou Auffreville-Brasseuil affichent des taux non
+négligeables (~ 10-15 enfants/1000 habitants). Les communes urbaines comme
+Versailles, Mantes-la-Jolie, ou Trappes, bien que densément peuplées et
+touchées en effectifs absolus, affichent des taux de placement modérés au
+regard de leur population totale.
+
+La présence de taux élevés dans des communes de petite et moyenne taille peut
 s'expliquer par une densité de population réduite, des différences dans les
 dynamiques de signalement, ou plus simplement par la présence d’établissement
 d’accueil d’enfants placés (ex., Jambville). Quoiqu’il en soit, cette
@@ -297,17 +300,18 @@ La carte ci-dessous représente la durée médiane du parcours des enfants plac�
 par commune de résidence (nous avons privilégié la médiane à la moyenne pour
 atténuer le poids des éventuelles valeurs extrêmes pour une commune donnée). La
 durée du parcours correspond au nombre de jours écoulés entre la date de début
-de la mesure et sa date de fin (réelle ou théorique lorsque les mesures sont en
-cours).
+de la mesure et sa date de fin (réelle lorsque les mesures sont achevées,
+théoriques lorsque celles-ci sont en cours).
+
 Un examen rapide révèle que certaines communes se distinguent par des durées
 particulièrement longues, comme Septeuil et Les Clayes-sous-Bois (2 500 jours).
-Bouafle et Bullion
-présentent également des durées élevées, proches de 1 500 à 2 500 jours.
-Ces chiffres traduisent des parcours prolongés suggérant des situations
-complexes pouvant nécessiter un accompagnement en santé mentale de longue durée.
-La majeure partie des communes restantes situées aussi bien en zone urbaine,
-péri-urbaines ou rurales, présentent des durées médianes plus courtes (~ 300 à
-500 jours, cercles gris à violets clairs).
+Bouafle et Bullion présentent également des durées élevées, proches de 1 500 à
+2 500 jours. Ces chiffres traduisent des parcours prolongés suggérant des
+situations complexes pouvant nécessiter un accompagnement en santé mentale de
+longue durée. La majeure partie des communes restantes situées aussi bien en
+zone urbaine, péri-urbaines ou rurales, présentent des durées médianes plus
+courtes (~ 300 à 500 jours, cercles gris à violets clairs).
+
 Ces données mettent donc en lumière des besoins contrastés : les communes où
 les parcours sont les plus longs nécessitent une attention accrue pour mieux
 comprendre les obstacles à la sortie du dispositif et améliorer la coordination
@@ -387,7 +391,13 @@ recensés sur le département des Yvelines en 2022 aux prévalences attendues po
 les troubles mentaux rapportés dans la méta-analyse.
 
 
-*NB : A première vue, il peut sembler incohérent que l'effectif présentant un trouble externalisé ()spécifique) soit supérieur à l'effectif présentant tout type de troubles mentaux (aspécifique). Cela est simplement dû au fait que ces deux indices de prévalence sont obtenus à partir de corpus d'études différents. Par exemple, une étude peut renseigner un taux de prévalence spécifique (trouble externalisé) sans nécessairement renseigner un taux aspécifique (tout type de trouble), et vice versa.*
+*NB : A première vue, il peut sembler incohérent que l'effectif présentant un
+trouble externalisé (spécifique) soit supérieur à l'effectif présentant tout
+type de troubles mentaux (aspécifique). Cela est simplement dû au fait que ces
+deux indices de prévalence sont obtenus à partir de corpus d'études différents.
+Par exemple, une étude peut renseigner un taux de prévalence spécifique
+(trouble externalisé) sans nécessairement renseigner un taux aspécifique (tout
+type de trouble), et vice versa.*
 
 ```{r}
 
@@ -517,72 +527,53 @@ data_timeseries <- data_proj |>
   bind_rows(data_pre_proj) |>
   arrange(year)
 
-df_segments <- data.frame(
+df_segments_mean <- data.frame(
   x1 = 2022,
   x2 = 2027,
   y1 = data_timeseries |> filter(year == 2022) |> pull(estimate_mean),
   y2 = data_timeseries |> filter(scenario != "historic") |> pull(estimate_mean),
-  scenario = data_timeseries |> filter(scenario != "historic") |> pull(scenario),
-  disorder = c("Troubles externalisés", "Troubles internalisés")
-)
+  disorder = c("Troubles externalisés", "Troubles internalisés"),
+  scenario = factor(data_timeseries |> filter(scenario != "historic") |>
+                      pull(scenario),
+                    levels = c("Scénario -20%",
+                               "Scénario -10%",
+                               "Scénario -9.4%  (Baisse historique)",
+                               "Scénario +0%",
+                               "Scénario +10%",
+                               "Scénario +15.5% (Hausse historique)",
+                               "Scénario +20%"
+                               )))
 
+# %#% Plots projections
 
-# %#% Plot time series 2018-2022 by gender
 #ggplot() +
 #  geom_line(data = data_timeseries |> filter(scenario == "historic"),
 #            aes(x = as.integer(year), y = estimate_mean, group = disorder,
 #                color = disorder), linewidth = 1.1) +
-# geom_segment(data = df_segments |> filter(
+# geom_segment(data = df_segments_mean |> filter(
 #                !(scenario %in% c("Scénario -9.4%  (Baisse historique)",
 #                                  "Scénario +15.5% (Hausse historique)"))
 #              ),
-#              aes(x = x1, y = y1, xend = x2, yend = y2), linetype = "dashed", linewidth = 1.1, color = "grey") +
-# geom_segment(data = df_segments |> filter(
-#                scenario %in% c("Scénario -9.4%  (Baisse historique)",
+#              aes(x = x1, y = y1, xend = x2, yend = y2, alpha = scenario), linetype = "dashed", linewidth = 1.1, color = "grey") +
+# geom_segment(data = df_segments_mean |> filter(
+#                as.character(scenario) %in% c("Scénario -9.4%  (Baisse historique)",
 #                                "Scénario +15.5% (Hausse historique)")
 #              ),
-#              aes(x = x1, y = y1, xend = x2, yend = y2, color = disorder), linetype = "dashed", linewidth = 1.1) +
+#              aes(x = x1, y = y1, xend = x2, yend = y2, color = disorder),
+#              linetype = "dashed", linewidth = 1.1) +
 #  geom_point(data = data_timeseries,
 #             aes(x = as.integer(year), y = estimate_mean, group = disorder,
 #                 color = disorder), shape = 21, color = "black",
 #             fill = "dark grey", size = 3) +
-#  # geom_errorbar(data = data_timeseries,
-#  #               aes(x = as.integer(year), ymin = estimate_low,
-#  #                   ymax = estimate_high, group = disorder, color = disorder),
-#  #               width = 0.2, alpha = 0.6, linewidth = 0.9) +
 #  scale_x_continuous(breaks = seq(2002, 2027, by = 1)) +
 #  ggtitle("Historique des besoins théoriques en santé mentale et projections à 5 ans selon différents scenarii",
-#          subtitle = "Les sections en pointillé gris correspondent aux scenarii +20 %, +10 %, +0 %, -10 % et -20 % par rapport aux effectifs de 2022.\nLes sections en pointillé coloré projettent une augmentation et une diminution des effectifs correspondant à la hausse (2017-2022 : +15,5 %) et à la baisse (2003-2008 : -9,4 %) maximales observées\nau cours de la période 2002-2022, par fenêtres de 5 ans.") +
+#          subtitle = "Les sections en pointillé gris correspondent aux scenarii +20%, +10%, +0%, -10% et -20% par rapport aux effectifs de 2022.\nLes sections en pointillé coloré projettent une augmentation et une diminution des effectifs correspondant à la hausse (2017-2022 : +15,5 %) et à la baisse (2003-2008 : -9,4 %)\nmaximales observées au cours de la période 2002-2022, par fenêtres de 5 ans.") +
+#  guides(color = guide_legend(order = 1), alpha = guide_legend(title = NULL, order = 2)) +
 #  theme_ipsum() +
-#  theme(legend.position = "inside",legend.position.inside = c(0.15, 0.9), legend.background = element_rect()) +
-#  # theme(legend.position = "inside", legend.position.inside = c(0.5, 0.8), legend.box = "horizontal", legend.spacing = unit(1, units = "in")) +
+#  theme(legend.position = "inside",legend.position.inside = c(0.2, 0.8), legend.box = "horizontal", legend.background = element_rect()) +
 #  labs(x = "Année", y = "", color = "Catégorie de troubles")
 
-#data |>
-#  ggplot(aes(x = reorder(disorder, estimate_mean), y = estimate_mean,
-#             label = round(estimate_mean), fill = disorder)) +
-#  geom_col() +
-#  geom_point(alpha = 0.6) +
-#  geom_errorbar(aes(x = disorder, ymin = estimate_low, ymax = estimate_high),
-#                width = 0.2, alpha = 0.6, linewidth = 0.9) +
-#  # geom_text(nudge_x = -0.25,
-#  #           nudge_y = ifelse(data$estimate_mean > 1000,
-#  #                            130, 105)) +
-#  geom_text(nudge_x = -0.25,
-#            nudge_y = purrr::map_dbl(data$estimate_mean, calculate_nudge_label)) +
-#  coord_flip() +
-#  facet_wrap(~ factor(scenario,
-#                      levels = c("Scénario -20%", "Scénario -10%",
-#                                 "Scénario -9.4%  (Baisse historique)",
-#                                 "Scénario +0%", "Scénario +10%",
-#                                 "Scénario +15.5% (Hausse historique)",
-#                                 "Scénario +20%")),
-#             # scales = "free",
-#             nrow = 2) +
-#  ggtitle("") +
-#    theme_ipsum(plot_title_size = 13) +
-#    labs(x = "", y = "Nombre d'enfants") +
-#    guides(fill = "none")
+
 
 ```
 
