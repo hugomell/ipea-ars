@@ -327,7 +327,7 @@ enfants.
 
 Pour l’heure, nous ne disposons pas de données départementales suffisamment
 nourries et/ou homogènes pour estimer le nombre d’enfants placés ayant un ou
-plusieurs besoins spécifique en santé mentale. Nous proposons néanmoins
+plusieurs besoins spécifiques en santé mentale. Nous proposons néanmoins
 d’approximer ces besoins en appliquant les indices de prévalence extraits de la
 méta-analyse de Westlake et collaborateurs (2023, DOI:
 10.1177/25161032231202256). Pour rappel, ce travail, le plus complet mené à ce
@@ -600,7 +600,7 @@ Ces scenarii envisagent:
   - +15,5% (hausse maximale observée au cours de la période 2002-2022,
     pour la fenêtre 2017-2022)
   - +20%
-* différents taux de diminution (-10%, -20%)
+* différents taux de diminution
   - -9,4% (baisse maximale observée au cours de la période 2002-2022,
     pour la fenêtre 2003-2008)
   - -10%
@@ -628,7 +628,7 @@ entre les familles, concentrent la majorité des enfants en placement, aggravant
 les disparités territoriales déjà observées.
 
 Face à cette situation, les dispositifs de soin existants en santé mentale et
-en protection de l’enfance ont tous lieu d’être saturés, lorsqu’ils ne sont pas
+en protection de l’enfance ont tout lieu d’être saturés, lorsqu’ils ne sont pas
 inégalement répartis sur le territoire. Les systèmes d’accueil, ainsi que
 l’offre de suivi psychologique et psychiatrique, pourraient peiner à répondre à
 l’ampleur de ces besoins, d'autant plus si leur croissance à venir est à
